@@ -1,0 +1,32 @@
+{
+  "name": "MMM-Futar",
+  "version": "1.0.0",
+  "description": "MagicMirror module that displays Budapest public transport information.",
+  "main": "MMM-Futar.js",
+  "author": "György Balássy",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/balassy/MMM-Futar"
+  },
+  "keywords": [
+    "MagicMirror",
+    "module",
+    "Futar",
+    "transport",
+    "public-transport"
+  ],
+  "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-airbnb-base": "latest",
+    "eslint-plugin-import": "latest",
+    "grunt": "latest",
+    "grunt-eslint": "latest",
+    "grunt-jsonlint": "latest",
+    "grunt-markdownlint": "latest",
+    "grunt-stylelint": "latest",
+    "grunt-yamllint": "latest",
+    "stylelint-config-standard": "latest",
+    "time-grunt": "latest"
+  }
+}
