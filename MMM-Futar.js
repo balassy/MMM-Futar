@@ -52,21 +52,7 @@ Module.register('MMM-Futar', {
         wrapper.appendChild(noDepartureEl);
       }
       for (let i = 0; i < this.viewModel.departureTimes.length; i++) {
-        const departureTime = this.viewModel.departureTimes[i];
-
-        const timeEl = document.createElement('div');
-        timeEl.classList = 'small';
-        timeEl.style.opacity = this._getRowOpacity(this.viewModel.departureTimes.length, i);
-
-        const relativeTimeEl = document.createElement('span');
-        relativeTimeEl.innerHTML = departureTime.relativeTime;
-        timeEl.appendChild(relativeTimeEl);
-
-        const absoluteTimeEl = document.createElement('span');
-        absoluteTimeEl.classList = 'dimmed';
-        absoluteTimeEl.innerHTML = ` (${departureTime.absoluteTime})`;
-        timeEl.appendChild(absoluteTimeEl);
-
+        const timeEl = this._getDomForDepartureTime(this.viewModel.departureTimes, i);
         wrapper.appendChild(timeEl);
       }
     } else {
@@ -77,6 +63,25 @@ Module.register('MMM-Futar', {
     }
 
     return wrapper;
+  },
+
+  _getDomForDepartureTime(departureTimes, index) {
+    const departureTime = departureTimes[index];
+
+    const timeEl = document.createElement('div');
+    timeEl.classList = 'small';
+    timeEl.style.opacity = this._getRowOpacity(departureTimes.length, index);
+
+    const relativeTimeEl = document.createElement('span');
+    relativeTimeEl.innerHTML = departureTime.relativeTime;
+    timeEl.appendChild(relativeTimeEl);
+
+    const absoluteTimeEl = document.createElement('span');
+    absoluteTimeEl.classList = 'dimmed';
+    absoluteTimeEl.innerHTML = ` (${departureTime.absoluteTime})`;
+    timeEl.appendChild(absoluteTimeEl);
+
+    return timeEl;
   },
 
   _getData() {
