@@ -45,7 +45,7 @@ Module.register('MMM-Futar', {
     this._getData();
 
     setInterval(() => {
-      self.updateDom();
+      self._getData(() => self.updateDom());
     }, this.config.updateInterval);
   },
 
@@ -137,7 +137,7 @@ Module.register('MMM-Futar', {
     return symbolEl;
   },
 
-  _getData() {
+  _getData(onCompleteCallback) {
     const self = this;
 
     const url = `http://futar.bkk.hu/bkk-utvonaltervezo-api/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=${this.config.minutesAfter}`;
@@ -148,6 +148,7 @@ Module.register('MMM-Futar', {
       if (this.readyState === 4) {
         if (this.status === 200) {
           self._processResponse(this.response);
+          onCompleteCallback();
         } else {
           Log.error(self.name, `MMM-Futar: Failed to load data. XHR status: ${this.status}`);
         }
