@@ -1,0 +1,22 @@
+.MMM-Futar table {
+  width: auto !important;
+}
+
+.MMM-Futar table.align-right {
+  float: right;
+}
+
+.MMM-Futar .clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.MMM-Futar .relative-time {
+  white-space: nowrap;
+}
+
+.MMM-Futar .absolute-time {
+  padding-left: 10px;
+  white-space: nowrap;
+}

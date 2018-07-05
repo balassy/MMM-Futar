@@ -10,7 +10,8 @@ Module.register('MMM-Futar', {
     updateInterval: 60000,
     minutesAfter: 60,
     fade: true,
-    fadePoint: 0.25
+    fadePoint: 0.25,
+    align: 'left' // 'left' | 'right'
   },
 
   requiresVersion: '2.1.0',
@@ -20,6 +21,10 @@ Module.register('MMM-Futar', {
       'moment.js',
       'moment-timezone.js'
     ];
+  },
+
+  getStyles() {
+    return ['MMM-Futar.css'];
   },
 
   getTranslations() {
@@ -49,10 +54,22 @@ Module.register('MMM-Futar', {
         const noDepartureEl = this._getDomForNoDeparture();
         wrapper.appendChild(noDepartureEl);
       } else {
-        for (let i = 0; i < this.viewModel.departureTimes.length; i++) {
-          const timeEl = this._getDomForDepartureTime(this.viewModel.departureTimes, i);
-          wrapper.appendChild(timeEl);
+        const tableEl = document.createElement('table');
+
+        if (this.config.align === 'right') {
+          tableEl.classList = 'align-right';
         }
+
+        for (let i = 0; i < this.viewModel.departureTimes.length; i++) {
+          const rowEl = this._getDomForDepartureTime(this.viewModel.departureTimes, i);
+          tableEl.appendChild(rowEl);
+        }
+
+        wrapper.appendChild(tableEl);
+
+        const clearfixEl = document.createElement('div');
+        clearfixEl.classList = 'clearfix';
+        wrapper.appendChild(clearfixEl);
       }
     } else {
       const loadingEl = this._getDomForLoading();
@@ -79,16 +96,17 @@ Module.register('MMM-Futar', {
   _getDomForDepartureTime(departureTimes, index) {
     const departureTime = departureTimes[index];
 
-    const timeEl = document.createElement('div');
+    const timeEl = document.createElement('tr');
     timeEl.classList = 'small';
     timeEl.style.opacity = this._getRowOpacity(departureTimes.length, index);
 
-    const relativeTimeEl = document.createElement('span');
+    const relativeTimeEl = document.createElement('td');
+    relativeTimeEl.classList = 'relative-time';
     relativeTimeEl.innerHTML = departureTime.relativeTime;
     timeEl.appendChild(relativeTimeEl);
 
-    const absoluteTimeEl = document.createElement('span');
-    absoluteTimeEl.classList = 'dimmed';
+    const absoluteTimeEl = document.createElement('td');
+    absoluteTimeEl.classList = 'absolute-time dimmed';
     absoluteTimeEl.innerHTML = ` (${departureTime.absoluteTime})`;
     timeEl.appendChild(absoluteTimeEl);
 
