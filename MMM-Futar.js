@@ -8,7 +8,7 @@
 Module.register('MMM-Futar', {
   defaults: {
     updateInterval: 60000,
-    minutesAfter: 60,
+    minutesAfter: 50,
     fade: true,
     fadePoint: 0.25,
     align: 'left' // 'left' | 'right'
@@ -24,7 +24,10 @@ Module.register('MMM-Futar', {
   },
 
   getStyles() {
-    return ['MMM-Futar.css'];
+    return [
+      'MMM-Futar.css',
+      'font-awesome.css'
+    ];
   },
 
   getTranslations() {
@@ -100,6 +103,9 @@ Module.register('MMM-Futar', {
     timeEl.classList = 'small';
     timeEl.style.opacity = this._getRowOpacity(departureTimes.length, index);
 
+    const symbolEl = this._getDomForSymbol(departureTime.routeType);
+    timeEl.appendChild(symbolEl);
+
     const relativeTimeEl = document.createElement('td');
     relativeTimeEl.classList = 'relative-time';
     relativeTimeEl.innerHTML = departureTime.relativeTime;
@@ -111,6 +117,24 @@ Module.register('MMM-Futar', {
     timeEl.appendChild(absoluteTimeEl);
 
     return timeEl;
+  },
+
+  _getDomForSymbol(routeType) {
+    let classList = 'symbol fa ';
+
+    switch (routeType) {
+      case 'BUS':
+        classList += 'fa-bus';
+        break;
+      case 'TRAM':
+        classList += 'fa-train';
+        break;
+      default:
+        break;
+    }
+    const symbolEl = document.createElement('td');
+    symbolEl.classList = classList;
+    return symbolEl;
   },
 
   _getData() {
@@ -139,6 +163,7 @@ Module.register('MMM-Futar', {
     const departureTimes = [];
 
     const trips = this._getAllTripsFromResponse(response);
+    const routes = this._getAllRoutesFromResponse(response);
 
     const stopTimes = this._getAllStopTimesFromResponse(response);
     for (let i = 0; i < stopTimes.length; i++) {
@@ -146,13 +171,16 @@ Module.register('MMM-Futar', {
       const tripId = this._getTripIdFromStopTime(stopTime);
       const trip = this._getTripById(trips, tripId);
       const routeId = this._getRouteIdFromTrip(trip);
+      const route = this._getRouteById(routes, routeId);
+      const routeType = this._getRouteType(route);
 
       if (!this.config.routeId || routeId === this.config.routeId) {
         const departureTimestamp = this._getDepartureTimestampFromStopTime(stopTime);
         const timeInLocalTime = this._convertTimestampToLocalTime(departureTimestamp);
         const departureTime = {
           relativeTime: timeInLocalTime.fromNow(),
-          absoluteTime: timeInLocalTime.format('LT')
+          absoluteTime: timeInLocalTime.format('LT'),
+          routeType
         };
         departureTimes.push(departureTime);
       }
@@ -174,6 +202,10 @@ Module.register('MMM-Futar', {
     return response.data.entry.stopTimes;
   },
 
+  _getAllRoutesFromResponse(response) {
+    return response.data.references.routes;
+  },
+
   _getTripIdFromStopTime(stopTime) {
     return stopTime.tripId;
   },
@@ -190,8 +222,16 @@ Module.register('MMM-Futar', {
     return trip.routeId;
   },
 
+  _getRouteById(routes, routeId) {
+    return routes[routeId];
+  },
+
   _getDepartureTimestampFromStopTime(stopTime) {
     return stopTime.predictedArrivalTime || stopTime.arrivalTime || stopTime.departureTime;
+  },
+
+  _getRouteType(route) {
+    return route.type;
   },
 
   _convertTimestampToLocalTime(timestamp) {

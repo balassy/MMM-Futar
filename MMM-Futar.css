@@ -12,7 +12,12 @@
   display: table;
 }
 
+.MMM-Futar .symbol {
+  margin-right: 10px;
+}
+
 .MMM-Futar .relative-time {
+  text-align: right;
   white-space: nowrap;
 }
 
