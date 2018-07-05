@@ -8,7 +8,9 @@
 Module.register('MMM-Futar', {
   defaults: {
     updateInterval: 60000,
-    minutesAfter: 60
+    minutesAfter: 60,
+    fade: true,
+    fadePoint: 0.25
   },
 
   requiresVersion: '2.1.0',
@@ -54,6 +56,7 @@ Module.register('MMM-Futar', {
 
         const timeEl = document.createElement('div');
         timeEl.classList = 'small';
+        timeEl.style.opacity = this._getRowOpacity(this.viewModel.departureTimes.length, i);
 
         const relativeTimeEl = document.createElement('span');
         relativeTimeEl.innerHTML = departureTime.relativeTime;
@@ -163,5 +166,23 @@ Module.register('MMM-Futar', {
     const timeInGmt = new Date(timeInMilliseconds);
     const timeInLocalTime = moment(timeInGmt).tz(TIMEZONE_NAME);
     return timeInLocalTime;
+  },
+
+  _getRowOpacity(totalNumberOfRows, currentRowNumber) {
+    let opacity = 1;
+
+    if (this.config.fade && this.config.fadePoint < 1) {
+      if (this.config.fadePoint < 0) {
+        this.config.fadePoint = 0;
+      }
+      const startingPoint = totalNumberOfRows * this.config.fadePoint;
+      const steps = totalNumberOfRows - startingPoint;
+      if (currentRowNumber >= startingPoint) {
+        const currentStep = currentRowNumber - startingPoint;
+        opacity = 1 - (1 / steps * currentStep);
+      }
+    }
+
+    return opacity;
   }
 });
