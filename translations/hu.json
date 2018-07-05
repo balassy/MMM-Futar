@@ -1,3 +1,4 @@
 {
-  "LOADING": "Menetrend betöltése..."
+  "LOADING": "Menetrend betöltése...",
+  "NO_DEPARTURE": "Nem indul a következő {minutes} percben."
 }

@@ -1,4 +1,4 @@
-/* global Module, Log */
+/* global Module, Log, moment */
 
 /* Magic Mirror Module: MMM-Futar (https://github.com/balassy/MMM-Futar)
  * By György Balássy (https://www.linkedin.com/in/balassy)
@@ -8,9 +8,17 @@
 Module.register('MMM-Futar', {
   defaults: {
     updateInterval: 60000,
+    minutesAfter: 60
   },
 
   requiresVersion: '2.1.0',
+
+  getScripts() {
+    return [
+      'moment.js',
+      'moment-timezone.js'
+    ];
+  },
 
   getTranslations() {
     return {
@@ -35,9 +43,29 @@ Module.register('MMM-Futar', {
     const wrapper = document.createElement('div');
 
     if (this.viewModel) {
-      const priceEl = document.createElement('div');
-      priceEl.innerHTML = this.viewModel.headSign
-      wrapper.appendChild(priceEl);
+      if (this.viewModel.departureTimes.length === 0) {
+        const noDepartureEl = document.createElement('span');
+        noDepartureEl.innerHTML = this.translate('NO_DEPARTURE', { minutes: this.config.minutesAfter });
+        noDepartureEl.classList = 'dimmed small';
+        wrapper.appendChild(noDepartureEl);
+      }
+      for (let i = 0; i < this.viewModel.departureTimes.length; i++) {
+        const departureTime = this.viewModel.departureTimes[i];
+
+        const timeEl = document.createElement('div');
+        timeEl.classList = 'small';
+
+        const relativeTimeEl = document.createElement('span');
+        relativeTimeEl.innerHTML = departureTime.relativeTime;
+        timeEl.appendChild(relativeTimeEl);
+
+        const absoluteTimeEl = document.createElement('span');
+        absoluteTimeEl.classList = 'dimmed';
+        absoluteTimeEl.innerHTML = ` (${departureTime.absoluteTime})`;
+        timeEl.appendChild(absoluteTimeEl);
+
+        wrapper.appendChild(timeEl);
+      }
     } else {
       const loadingEl = document.createElement('span');
       loadingEl.innerHTML = this.translate('LOADING');
@@ -51,7 +79,7 @@ Module.register('MMM-Futar', {
   _getData() {
     const self = this;
 
-    const url = `http://futar.bkk.hu/bkk-utvonaltervezo-api/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=45`;
+    const url = `http://futar.bkk.hu/bkk-utvonaltervezo-api/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=${this.config.minutesAfter}`;
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -71,8 +99,31 @@ Module.register('MMM-Futar', {
   _processResponse(responseBody) {
     const response = JSON.parse(responseBody);
 
+    const departureTimes = [];
+
+    const trips = this._getAllTripsFromResponse(response);
+
+    const stopTimes = this._getAllStopTimesFromResponse(response);
+    for (let i = 0; i < stopTimes.length; i++) {
+      const stopTime = stopTimes[i];
+      const tripId = this._getTripIdFromStopTime(stopTime);
+      const trip = this._getTripById(trips, tripId);
+      const routeId = this._getRouteIdFromTrip(trip);
+
+      if (!this.config.routeId || routeId === this.config.routeId) {
+        const departureTimestamp = this._getDepartureTimestampFromStopTime(stopTime);
+        const timeInLocalTime = this._convertTimestampToLocalTime(departureTimestamp);
+        const departureTime = {
+          relativeTime: timeInLocalTime.fromNow(),
+          absoluteTime: timeInLocalTime.format('LT')
+        };
+        departureTimes.push(departureTime);
+      }
+    }
+
     this.viewModel = {
-      headSign: response.data.entry.stopTimes[0].stopHeadsign
+      headSign: response.data.entry.stopTimes[0].stopHeadsign,
+      departureTimes
     };
 
     if (!this.hasData) {
@@ -80,5 +131,37 @@ Module.register('MMM-Futar', {
     }
 
     this.hasData = true;
+  },
+
+  _getAllStopTimesFromResponse(response) {
+    return response.data.entry.stopTimes;
+  },
+
+  _getTripIdFromStopTime(stopTime) {
+    return stopTime.tripId;
+  },
+
+  _getAllTripsFromResponse(response) {
+    return response.data.references.trips;
+  },
+
+  _getTripById(trips, tripId) {
+    return trips[tripId];
+  },
+
+  _getRouteIdFromTrip(trip) {
+    return trip.routeId;
+  },
+
+  _getDepartureTimestampFromStopTime(stopTime) {
+    return stopTime.predictedArrivalTime || stopTime.arrivalTime || stopTime.departureTime;
+  },
+
+  _convertTimestampToLocalTime(timestamp) {
+    const TIMEZONE_NAME = 'Europe/Budapest';
+    const timeInMilliseconds = timestamp * 1000;
+    const timeInGmt = new Date(timeInMilliseconds);
+    const timeInLocalTime = moment(timeInGmt).tz(TIMEZONE_NAME);
+    return timeInLocalTime;
   }
 });

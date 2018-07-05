@@ -1,3 +1,4 @@
 {
-  "LOADING": "Loading timetable..."
+  "LOADING": "Loading timetable...",
+  "NO_DEPARTURE": "No departure in the next {minutes} minutes."
 }
