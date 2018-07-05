@@ -46,23 +46,34 @@ Module.register('MMM-Futar', {
 
     if (this.viewModel) {
       if (this.viewModel.departureTimes.length === 0) {
-        const noDepartureEl = document.createElement('span');
-        noDepartureEl.innerHTML = this.translate('NO_DEPARTURE', { minutes: this.config.minutesAfter });
-        noDepartureEl.classList = 'dimmed small';
+        const noDepartureEl = this._getDomForNoDeparture();
         wrapper.appendChild(noDepartureEl);
-      }
-      for (let i = 0; i < this.viewModel.departureTimes.length; i++) {
-        const timeEl = this._getDomForDepartureTime(this.viewModel.departureTimes, i);
-        wrapper.appendChild(timeEl);
+      } else {
+        for (let i = 0; i < this.viewModel.departureTimes.length; i++) {
+          const timeEl = this._getDomForDepartureTime(this.viewModel.departureTimes, i);
+          wrapper.appendChild(timeEl);
+        }
       }
     } else {
-      const loadingEl = document.createElement('span');
-      loadingEl.innerHTML = this.translate('LOADING');
-      loadingEl.classList = 'dimmed small';
+      const loadingEl = this._getDomForLoading();
       wrapper.appendChild(loadingEl);
     }
 
     return wrapper;
+  },
+
+  _getDomForLoading() {
+    const loadingEl = document.createElement('div');
+    loadingEl.innerHTML = this.translate('LOADING');
+    loadingEl.classList = 'dimmed small';
+    return loadingEl;
+  },
+
+  _getDomForNoDeparture() {
+    const noDepartureEl = document.createElement('div');
+    noDepartureEl.innerHTML = this.translate('NO_DEPARTURE', { minutes: this.config.minutesAfter });
+    noDepartureEl.classList = 'dimmed small';
+    return noDepartureEl;
   },
 
   _getDomForDepartureTime(departureTimes, index) {
