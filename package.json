@@ -14,7 +14,8 @@
     "module",
     "Futar",
     "transport",
-    "public-transport"
+    "public-transport",
+    "Budapest"
   ],
   "devDependencies": {
     "eslint": "latest",
