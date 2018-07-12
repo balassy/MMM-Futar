@@ -11,7 +11,10 @@ Module.register('MMM-Futar', {
     minutesAfter: 50,
     fade: true,
     fadePoint: 0.25,
-    align: 'left' // 'left' | 'right'
+    align: 'left', // 'left' | 'right',
+    showHead: true, // true | false
+    showSymbolInHead: true, // true | false
+    showSymbolInStopTime: false // true | false
   },
 
   requiresVersion: '2.1.0',
@@ -42,7 +45,7 @@ Module.register('MMM-Futar', {
     this.viewModel = null;
     this.hasData = false;
 
-    this._getData();
+    this._getData(() => self.updateDom());
 
     setInterval(() => {
       self._getData(() => self.updateDom());
@@ -53,6 +56,11 @@ Module.register('MMM-Futar', {
     const wrapper = document.createElement('div');
 
     if (this.viewModel) {
+      if (this.config.showHead) {
+        const headEl = this._getDomForHead(this.viewModel.routeType);
+        wrapper.appendChild(headEl);
+      }
+
       if (this.viewModel.departureTimes.length === 0) {
         const noDepartureEl = this._getDomForNoDeparture();
         wrapper.appendChild(noDepartureEl);
@@ -96,6 +104,22 @@ Module.register('MMM-Futar', {
     return noDepartureEl;
   },
 
+  _getDomForHead(routeType) {
+    const headEl = document.createElement('div');
+
+    if (this.config.showSymbolInHead) {
+      const headSymbolEl = document.createElement('span');
+      headSymbolEl.classList = this._getCssClassNameForRouteType(routeType);
+      headEl.appendChild(headSymbolEl);
+    }
+
+    const headTextEl = document.createElement('span');
+    headTextEl.innerHTML = this.viewModel.departureTimes[0].routeName;
+    headEl.appendChild(headTextEl);
+
+    return headEl;
+  },
+
   _getDomForDepartureTime(departureTimes, index) {
     const departureTime = departureTimes[index];
 
@@ -103,8 +127,10 @@ Module.register('MMM-Futar', {
     timeEl.classList = 'small';
     timeEl.style.opacity = this._getRowOpacity(departureTimes.length, index);
 
-    const symbolEl = this._getDomForSymbol(departureTime.routeType);
-    timeEl.appendChild(symbolEl);
+    if (this.config.showSymbolInStopTime) {
+      const symbolEl = this._getDomForSymbol(departureTime.routeType);
+      timeEl.appendChild(symbolEl);
+    }
 
     const relativeTimeEl = document.createElement('td');
     relativeTimeEl.classList = 'relative-time';
@@ -120,6 +146,12 @@ Module.register('MMM-Futar', {
   },
 
   _getDomForSymbol(routeType) {
+    const symbolEl = document.createElement('td');
+    symbolEl.classList = this._getCssClassNameForRouteType(routeType);
+    return symbolEl;
+  },
+
+  _getCssClassNameForRouteType(routeType) {
     let classList = 'symbol fa ';
 
     switch (routeType) {
@@ -132,9 +164,8 @@ Module.register('MMM-Futar', {
       default:
         break;
     }
-    const symbolEl = document.createElement('td');
-    symbolEl.classList = classList;
-    return symbolEl;
+
+    return classList;
   },
 
   _getData(onCompleteCallback) {
@@ -148,7 +179,9 @@ Module.register('MMM-Futar', {
       if (this.readyState === 4) {
         if (this.status === 200) {
           self._processResponse(this.response);
-          onCompleteCallback();
+          if (onCompleteCallback) {
+            onCompleteCallback();
+          }
         } else {
           Log.error(self.name, `MMM-Futar: Failed to load data. XHR status: ${this.status}`);
         }
@@ -174,6 +207,7 @@ Module.register('MMM-Futar', {
       const routeId = this._getRouteIdFromTrip(trip);
       const route = this._getRouteById(routes, routeId);
       const routeType = this._getRouteType(route);
+      const routeName = this._getRouteName(route);
 
       if (!this.config.routeId || routeId === this.config.routeId) {
         const departureTimestamp = this._getDepartureTimestampFromStopTime(stopTime);
@@ -181,6 +215,7 @@ Module.register('MMM-Futar', {
         const departureTime = {
           relativeTime: timeInLocalTime.fromNow(),
           absoluteTime: timeInLocalTime.format('LT'),
+          routeName,
           routeType
         };
         departureTimes.push(departureTime);
@@ -188,8 +223,10 @@ Module.register('MMM-Futar', {
     }
 
     this.viewModel = {
-      headSign: response.data.entry.stopTimes[0].stopHeadsign,
-      departureTimes
+      departureTimes,
+      routeType: departureTimes.length > 0
+        ? departureTimes[0].routeType
+        : 'BUS'
     };
 
     if (!this.hasData) {
@@ -233,6 +270,10 @@ Module.register('MMM-Futar', {
 
   _getRouteType(route) {
     return route.type;
+  },
+
+  _getRouteName(route) {
+    return route.shortName;
   },
 
   _convertTimestampToLocalTime(timestamp) {
