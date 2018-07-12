@@ -43,6 +43,7 @@ module.exports = function (grunt) {
             'MD040': false,
             'MD002': false,
             'MD029': false,
+            'MD034': false,
             'MD041': false,
             'MD032': false,
             'MD036': false,
@@ -51,7 +52,8 @@ module.exports = function (grunt) {
             'MD018': false,
             'MD012': false,
             'MD026': false,
-            'MD038': false
+            'MD038': false,
+            'MD045': false
           }
         },
         src: ['README.md', 'CHANGELOG.md', 'LICENSE.txt']
