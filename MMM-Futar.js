@@ -113,8 +113,9 @@ Module.register('MMM-Futar', {
       headEl.appendChild(headSymbolEl);
     }
 
+
     const headTextEl = document.createElement('span');
-    headTextEl.innerHTML = this.viewModel.departureTimes[0].routeName;
+    headTextEl.innerHTML = this.viewModel.routeName;
     headEl.appendChild(headTextEl);
 
     return headEl;
@@ -207,7 +208,7 @@ Module.register('MMM-Futar', {
       const routeId = this._getRouteIdFromTrip(trip);
       const route = this._getRouteById(routes, routeId);
       const routeType = this._getRouteType(route);
-      const routeName = this._getRouteName(route);
+      const routeName = this._getRouteName(route, routes);
 
       if (!this.config.routeId || routeId === this.config.routeId) {
         const departureTimestamp = this._getDepartureTimestampFromStopTime(stopTime);
@@ -226,7 +227,10 @@ Module.register('MMM-Futar', {
       departureTimes,
       routeType: departureTimes.length > 0
         ? departureTimes[0].routeType
-        : 'BUS'
+        : 'BUS',
+      routeName: departureTimes.length > 0
+        ? departureTimes[0].routeName
+        : this._getRouteName(null, routes)
     };
 
     if (!this.hasData) {
@@ -272,8 +276,12 @@ Module.register('MMM-Futar', {
     return route.type;
   },
 
-  _getRouteName(route) {
-    return route.shortName;
+  _getRouteName(route, allRoutes) {
+    return route
+      ? route.shortName
+      : this.config.routeId
+        ? allRoutes[this.config.routeId].shortName
+        : allRoutes[Object.keys(allRoutes)[0]].shortName; // TODO
   },
 
   _convertTimestampToLocalTime(timestamp) {
