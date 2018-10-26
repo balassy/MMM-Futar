@@ -50,6 +50,7 @@ var config = {
         showHead: true, // true | false
         showSymbolInHead: true, // true | false
         showSymbolInStopTime: false, // true | false
+        maxNumberOfItems: 3,
         align: 'left', // 'left' | 'right'
         fade: true,
         fadePoint: 0.25
@@ -70,6 +71,7 @@ var config = {
 | `showHead`             | *Optional* Determines whether the module should display a custom headline (independently from the standard headline of the module). The route name in the head is based on the data received from the Futár service. <br><br>**Type:** `boolean` <br>**Default value:** `true`
 | `showSymbolInHead`     | *Optional* Determines whether the custom headline should show the icon of the route.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `showSymbolInStopTime` | *Optional* Determines whether every stop time line should show the icon of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
+| `maxNumberOfItems`     | *Optional* Determines the limit for the number of displayed departure times. <br><br>**Type:** `number`  <br>**Default value:** `3`
 | `align`                | *Optional* Determines how the text is aligned within the module.<br><br>**Type:** `string`<br>**Possible values**: `left` or `right`<br>**Default value:** `left`
 | `fade`                 | *Optional* Determines whether the future stop times are gradiently faded to black.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `fadePoint`            | *Optional* Determines where the fading should be started.<br><br>**Type:** `double`<br>**Possible values:** `0` (top of the list) - `1` (bottom of the list)<br>**Default value:** `0.25`

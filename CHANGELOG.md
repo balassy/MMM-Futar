@@ -3,6 +3,9 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0]
+
+ADDED: The maximum number of displayed items can be configured with the `maxNumberOfItems` setting.
 
 ## [1.0.1]
 

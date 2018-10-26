@@ -2,8 +2,7 @@
 
 /* Magic Mirror Module: MMM-Futar (https://github.com/balassy/MMM-Futar)
  * By György Balássy (https://www.linkedin.com/in/balassy)
- * MIT Licensed.
- */
+ * MIT Licensed.  */
 
 Module.register('MMM-Futar', {
   defaults: {
@@ -14,7 +13,8 @@ Module.register('MMM-Futar', {
     align: 'left', // 'left' | 'right',
     showHead: true, // true | false
     showSymbolInHead: true, // true | false
-    showSymbolInStopTime: false // true | false
+    showSymbolInStopTime: false, // true | false
+    maxNumberOfItems: 3
   },
 
   requiresVersion: '2.1.0',
@@ -112,7 +112,6 @@ Module.register('MMM-Futar', {
       headSymbolEl.classList = this._getCssClassNameForRouteType(routeType);
       headEl.appendChild(headSymbolEl);
     }
-
 
     const headTextEl = document.createElement('span');
     headTextEl.innerHTML = this.viewModel.routeName;
@@ -223,13 +222,17 @@ Module.register('MMM-Futar', {
       }
     }
 
+    const departureTimesLimited = departureTimes.length > this.config.maxNumberOfItems
+      ? departureTimes.slice(0, this.config.maxNumberOfItems)
+      : departureTimes;
+
     this.viewModel = {
-      departureTimes,
-      routeType: departureTimes.length > 0
-        ? departureTimes[0].routeType
+      departureTimes: departureTimesLimited,
+      routeType: departureTimesLimited.length > 0
+        ? departureTimesLimited[0].routeType
         : 'BUS',
-      routeName: departureTimes.length > 0
-        ? departureTimes[0].routeName
+      routeName: departureTimesLimited.length > 0
+        ? departureTimesLimited[0].routeName
         : this._getRouteName(null, routes)
     };
 
