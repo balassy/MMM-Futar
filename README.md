@@ -90,7 +90,23 @@ To get the stop and route identifiers required by this module, follow these step
 
 5. Configure the `stopId` configuration value by removing the `#` sign and prepending `BKK_`, for example `BKK_F02285`.
 
-To get the route ID use the browser's Developer Tools to monitor the network traffic.
+To get the route ID use the browser's Developer Tools to monitor the network traffic:
+
+1. Launch Google Chrome and navigate to https://futar.bkk.hu.
+
+2. Zoom until your favorite stop is shown on the map.
+
+3. Open Google Chrome's Developer Tool by pressing F12 and select "Network" on the top of the window.
+
+4. Click on your favorite stop icon until a pop-up window appears. On that window, click on the line which you reveal it's `routeId` (under the stopId, not on the arrivals list, this is important!!!)
+
+5. If you selected the line properly, it will display it's full route with ALL the vehicles currently running on the line.
+
+6. Go back to the Developer Tool and add a filter for `routeId`.
+
+7. Select one response which start like: "vehicles-for-route.json....". 
+
+8. Open 'data' and then 'list', scroll a little to the right and you'll see the `routeId` for your favorite line!
 
 ## How it works
 
