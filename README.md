@@ -80,6 +80,8 @@ var config = {
 
 To get the stop and route identifiers required by this module, follow these steps:
 
+### `stopId`
+
 1. Launch Google Chrome and navigate to https://futar.bkk.hu.
 
 2. Zoom until your favorite stop is shown on the map.
@@ -90,7 +92,19 @@ To get the stop and route identifiers required by this module, follow these step
 
 5. Configure the `stopId` configuration value by removing the `#` sign and prepending `BKK_`, for example `BKK_F02285`.
 
-To get the route ID use the browser's Developer Tools to monitor the network traffic.
+### `routeId`
+
+1. Launch Google Chrome and navigate to https://futar.bkk.hu.
+
+2. Zoom until your favorite stop is shown on the map.
+
+3. Click on your favorite stop icon until a pop-up window appears. On that window, click on the line which you reveal it's `routeId` (under the stopId, not on the arrivals list, this is important!!!)
+
+5. On the left panel select the direction which needed.
+
+6. Hover your mouse over your stop.
+
+7. Right click, copy the link address and it should reveal the `stopId` and the `routeId` as well.
 
 ## How it works
 
