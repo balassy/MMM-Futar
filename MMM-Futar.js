@@ -14,7 +14,18 @@ Module.register('MMM-Futar', {
     showHead: true, // true | false
     showSymbolInHead: true, // true | false
     showSymbolInStopTime: false, // true | false
-    maxNumberOfItems: 3
+    maxNumberOfItems: 3,
+    coloredSymbolInHead: true, // true | false
+    coloredTextInHead: true, // true | false
+    coloredSymbolInStopTime: true, // true | false
+    symbolColors: {
+      tram: '#ffcf42', // yellow-ish
+      bus: '#1a9fed', // blue-ish
+      subway: '#8b1e3f', // red-ish
+      trolleybus: '#44001a', // dark red-ish
+      rail: '#5cbc82', // green-ish
+      ferry: '#1a52ed' // dark-blue-ish
+    }
   },
 
   requiresVersion: '2.1.0',
@@ -110,11 +121,19 @@ Module.register('MMM-Futar', {
     if (this.config.showSymbolInHead) {
       const headSymbolEl = document.createElement('span');
       headSymbolEl.classList = this._getCssClassNameForRouteType(routeType);
+
+      if (this.config.coloredSymbolInHead) {
+        headSymbolEl.style = `color: ${this._getColorForRouteType(routeType)}`;
+      }
+
       headEl.appendChild(headSymbolEl);
     }
 
     const headTextEl = document.createElement('span');
     headTextEl.innerHTML = this.viewModel.routeName;
+    if (this.config.coloredTextInHead) {
+      headTextEl.style = `color: ${this._getColorForRouteType(routeType)}`;
+    }
     headEl.appendChild(headTextEl);
 
     return headEl;
@@ -128,7 +147,7 @@ Module.register('MMM-Futar', {
     timeEl.style.opacity = this._getRowOpacity(departureTimes.length, index);
 
     if (this.config.showSymbolInStopTime) {
-      const symbolEl = this._getDomForSymbol(departureTime.routeType);
+      const symbolEl = this._getDomForSymbolInStopTime(departureTime.routeType);
       timeEl.appendChild(symbolEl);
     }
 
@@ -145,9 +164,14 @@ Module.register('MMM-Futar', {
     return timeEl;
   },
 
-  _getDomForSymbol(routeType) {
+  _getDomForSymbolInStopTime(routeType) {
     const symbolEl = document.createElement('td');
     symbolEl.classList = this._getCssClassNameForRouteType(routeType);
+
+    if (this.config.coloredSymbolInStopTime) {
+      symbolEl.style = `color: ${this._getColorForRouteType(routeType)}`;
+    }
+
     return symbolEl;
   },
 
@@ -166,6 +190,24 @@ Module.register('MMM-Futar', {
     }
 
     return classList;
+  },
+
+  _getColorForRouteType(routeType) {
+    if (!routeType) {
+      throw new Error('Please specify the routeType to determine its color!');
+    }
+
+    const routeTypeLowerCased = routeType.toLowerCase();
+
+    let resultColor = 'auto';
+
+    if (this.config.symbolColors[routeTypeLowerCased]) {
+      resultColor = this.config.symbolColors[routeTypeLowerCased];
+    } else {
+      Log.error(this.name, `MMM-Futar: No symbol color defined for ${routeTypeLowerCased}`);
+    }
+
+    return resultColor;
   },
 
   _getData(onCompleteCallback) {

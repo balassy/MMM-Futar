@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0]
+
+ADDED: The symbol and the head text are colored colored by default, but this behavior can be changed with the new `colorSymbolInHead`, `coloredTextInHead`, `coloredSymbolInStopTime` and `symbolColors` configuration settings.
+
 ## [1.1.0]
 
 ADDED: The maximum number of displayed items can be configured with the `maxNumberOfItems` setting.

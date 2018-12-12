@@ -6,19 +6,23 @@ This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror
 
 By default this module displays the departure times of the configured route in the configured stop:
 
-![](https://raw.githubusercontent.com/balassy/MMM-Futar/master/doc/screenshot-default.png)
+![](./doc/screenshot-default.png)
 
 If you wish, you can hide the complete head:
 
-![](https://raw.githubusercontent.com/balassy/MMM-Futar/master/doc/screenshot-nohead.png)
+![](./doc/screenshot-nohead.png)
 
 You can also configure whether you want the module to hide the symbol in the head, and/or show the symbol at every stop time:
 
-![](https://raw.githubusercontent.com/balassy/MMM-Futar/master/doc/screenshot-nosymbolinhead.png)
+![](./doc/screenshot-nosymbolinhead.png)
+
+You can even decide to display the symbols and route text with the color matching the route type (enabled by default from version 1.2.0, but can be optionally disabled):
+
+![](./doc/screenshot-colors.png)
 
 If you decide to put the module on the right column, you can set the module to right align its content:
 
-![](https://raw.githubusercontent.com/balassy/MMM-Futar/master/doc/screenshot-rightalign.png)
+![](./doc/screenshot-rightalign.png)
 
 This module is capable to display only a single stop and route data. If you would like to see the departure times of more stops and routes on your mirror, add this module multiple times.
 
@@ -53,7 +57,18 @@ var config = {
         maxNumberOfItems: 3,
         align: 'left', // 'left' | 'right'
         fade: true,
-        fadePoint: 0.25
+        fadePoint: 0.25,
+        coloredSymbolInHead: true, // true | false
+        coloredTextInHead: true, // true | false
+        coloredSymbolInStopTime: true, // true | false
+        symbolColors: {
+          tram: '#ffcf42', // yellow-ish
+          bus: '#1a9fed', // blue-ish
+          subway: '#8b1e3f', // red-ish
+          trolleybus: '#44001a', // dark red-ish
+          rail: '#5cbc82', // green-ish
+          ferry: '#1a52ed' // dark-blue-ish
+        }
       }
     }
   ]
@@ -75,6 +90,10 @@ var config = {
 | `align`                | *Optional* Determines how the text is aligned within the module.<br><br>**Type:** `string`<br>**Possible values**: `left` or `right`<br>**Default value:** `left`
 | `fade`                 | *Optional* Determines whether the future stop times are gradiently faded to black.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `fadePoint`            | *Optional* Determines where the fading should be started.<br><br>**Type:** `double`<br>**Possible values:** `0` (top of the list) - `1` (bottom of the list)<br>**Default value:** `0.25`
+| `coloredSymbolInHead`     | *Optional* Determines whether the symbol in the head should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `coloredTextInHead`       | *Optional* Determines whether the route name text in the head should be displayed with the color of the route type (e.g. yellow for tram). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `coloredSymbolInStopTime` | *Optional* Determines whether the symbol in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `symbolColors`            | *Optional* Allows overriding the colors of the route types. Used only if any `colored...` options is set to `true`. <br><br>**Type:** `object`  <br>**Default value:** (see above)
 
 ## How to get the `stopId` and `routeId`
 
