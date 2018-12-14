@@ -24,6 +24,10 @@ You can even decide to display the symbols and route text with the color matchin
 
 ![](./doc/screenshot-colors.png)
 
+The module by default displays operation alerts for the selected routes (available from version 1.3.0):
+
+![](./doc/screenshot-alerts.png)
+
 If you decide to put the module on the right column, you can set the module to right align its content:
 
 ![](./doc/screenshot-rightalign.png)
@@ -74,6 +78,12 @@ var config = {
           trolleybus: '#44001a', // dark red-ish
           rail: '#5cbc82', // green-ish
           ferry: '#1a52ed' // dark-blue-ish
+        },
+        alerts: {
+          showHeaderInStopTime: true, // true | false
+          showSymbolInStopTime: true, // true | false
+          color: '#ffcf42', // 'auto' or any CSS color
+          language: 'en' // 'en' or 'hu' supported only by the Futár API
         }
       }
     }
@@ -102,6 +112,19 @@ var config = {
 | `coloredSymbolInStopTime` | *Optional* Determines whether the symbol in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `coloredRouteNameInStopTime` | *Optional* Determines whether the route name in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `symbolColors`            | *Optional* Allows overriding the colors of the route types. Used only if any `colored...` options is set to `true`. <br><br>**Type:** `object`  <br>**Default value:** (see above)
+| `alerts`                  | *Optional* Allows configuring how route alerts are displayed. See the "Alert options" section below for more details. <br><br>**Type:** `object`  <br>**Default value:** (see above)
+
+### Alert options
+
+The following properties are available for the `alerts` object of the configuration object:
+
+| Option                 | Description
+|------------------------|-----------
+| `showHeaderInStopTime` | *Optional* Determines whether the alert header (short alert message) should be displayed in the line of every stop time.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `showSymbolInStopTime` | *Optional* Determines whether the alert icon (exclamation mark) should be displayed in the line of every stop time.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `color`                | *Optional* Determines the color of the alert messages.<br><br>**Type:** `string`  <br>**Possible values:** `'auto'` to use the text color of the mirror or any valid CSS color <br>**Default value:** `#ffcf42` (yellow)
+| `language`             | *Optional* Determines the language of the alert messages.<br><br>**Type:** `string`  <br>**Possible values:** `'en'` or `'hu'` (only these two are supported by the Futár service)<br> **Default value:** the language of the mirror (set in the `language` property in `config.js`)
+
 
 ## How to get the `stopId` and `routeId`
 

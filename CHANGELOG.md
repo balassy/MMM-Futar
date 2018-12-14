@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - ADDED: The route name can be displayed in every stop time using the new `showRouteNameInStopTime` configuration switch.
 - ADDED: The route name can be displayed in every stop time in colors using the new `coloredRouteNameInStopTime` configuration switch.
+- ADDED: Operational alerts are displayed in every stop time by default, but this behavior can be changed using the properties of the new `alerts` object in the configuration.
 
 ## [1.2.0]
 

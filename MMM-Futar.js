@@ -1,4 +1,4 @@
-/* global Module, Log, moment */
+/* global Module, Log, moment, config */
 
 /* Magic Mirror Module: MMM-Futar (https://github.com/balassy/MMM-Futar)
  * By György Balássy (https://www.linkedin.com/in/balassy)
@@ -27,6 +27,12 @@ Module.register('MMM-Futar', {
       trolleybus: '#44001a', // dark red-ish
       rail: '#5cbc82', // green-ish
       ferry: '#1a52ed' // dark-blue-ish
+    },
+    alerts: {
+      showHeaderInStopTime: true, // true | false
+      showSymbolInStopTime: true, // true | false
+      color: '#ffcf42', // 'auto' or any CSS color
+      language: config.language // 'en' or 'hu' supported only by the Futár API
     }
   },
 
@@ -168,6 +174,11 @@ Module.register('MMM-Futar', {
     absoluteTimeEl.innerHTML = ` (${departureTime.absoluteTime})`;
     timeEl.appendChild(absoluteTimeEl);
 
+    if (this.config.alerts.showHeaderInStopTime && departureTime.alertHeader) {
+      const alertEl = this._getDomForAlertHeaderInStopTime(departureTime.alertHeader);
+      timeEl.appendChild(alertEl);
+    }
+
     return timeEl;
   },
 
@@ -192,6 +203,30 @@ Module.register('MMM-Futar', {
     }
 
     return routeNameEl;
+  },
+
+  _getDomForAlertHeaderInStopTime(alertHeader) {
+    const alertColor = this._getColorForAlert();
+
+    const alertEl = document.createElement('td');
+    alertEl.style = `color: ${alertColor}`;
+
+    if (this.config.alerts.showSymbolInStopTime) {
+      const alertSymbolEl = document.createElement('span');
+      alertSymbolEl.classList = 'alert-symbol fa fa-exclamation-triangle';
+      alertEl.appendChild(alertSymbolEl);
+    }
+
+    const alertTextEl = document.createElement('span');
+    alertTextEl.classList = 'alert-header';
+    alertTextEl.innerHTML = alertHeader;
+    alertEl.appendChild(alertTextEl);
+
+    return alertEl;
+  },
+
+  _getColorForAlert() {
+    return this.config.alerts.color || 'auto';
   },
 
   _getCssClassNameForRouteType(routeType) {
@@ -259,6 +294,7 @@ Module.register('MMM-Futar', {
 
     const trips = this._getAllTripsFromResponse(response);
     const routes = this._getAllRoutesFromResponse(response);
+    const alerts = this._getAllAlertsFromResponse(response);
 
     const stopTimes = this._getAllStopTimesFromResponse(response);
     for (let i = 0; i < stopTimes.length; i++) {
@@ -270,6 +306,9 @@ Module.register('MMM-Futar', {
       const routeType = this._getRouteType(route);
       const routeName = this._getRouteName(route, routes);
 
+      const alertIds = this._getAlertIdsFromStopTime(stopTime);
+      const alertHeader = this._getAlertHeader(alerts, alertIds);
+
       if (!this.config.routeId || routeId === this.config.routeId) {
         const departureTimestamp = this._getDepartureTimestampFromStopTime(stopTime);
         const timeInLocalTime = this._convertTimestampToLocalTime(departureTimestamp);
@@ -277,7 +316,8 @@ Module.register('MMM-Futar', {
           relativeTime: timeInLocalTime.fromNow(),
           absoluteTime: timeInLocalTime.format('LT'),
           routeName,
-          routeType
+          routeType,
+          alertHeader
         };
         departureTimes.push(departureTime);
       }
@@ -310,6 +350,14 @@ Module.register('MMM-Futar', {
 
   _getAllRoutesFromResponse(response) {
     return response.data.references.routes;
+  },
+
+  _getAllAlertsFromResponse(response) {
+    return response.data.references.alerts;
+  },
+
+  _getAlertIdsFromStopTime(stopTime) {
+    return stopTime.alertIds;
   },
 
   _getTripIdFromStopTime(stopTime) {
@@ -346,6 +394,22 @@ Module.register('MMM-Futar', {
       : this.config.routeId
         ? allRoutes[this.config.routeId].shortName
         : allRoutes[Object.keys(allRoutes)[0]].shortName; // TODO
+  },
+
+  _getAlertHeader(alerts, alertIds) {
+    let resultHeader = '';
+
+    if (!alerts || !alertIds) {
+      return resultHeader;
+    }
+
+    for (let alertIdIndex = 0; alertIdIndex < alertIds.length; alertIdIndex++) {
+      const alertId = alertIds[alertIdIndex];
+      const alert = alerts[alertId];
+      const alertHeader = alert.header.translations[this.config.alerts.language];
+      resultHeader += `${alertHeader} `;
+    }
+    return resultHeader;
   },
 
   _convertTimestampToLocalTime(timestamp) {
