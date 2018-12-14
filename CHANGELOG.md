@@ -3,7 +3,7 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [UNRELEASED]
+## [1.3.0]
 
 - ADDED: The route name can be displayed in every stop time using the new `showRouteNameInStopTime` configuration switch.
 - ADDED: The route name can be displayed in every stop time in colors using the new `coloredRouteNameInStopTime` configuration switch.

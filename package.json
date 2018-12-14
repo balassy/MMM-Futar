@@ -1,6 +1,6 @@
 {
   "name": "MMM-Futar",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "MagicMirror module that displays Budapest public transport information.",
   "main": "MMM-Futar.js",
   "author": "György Balássy",
