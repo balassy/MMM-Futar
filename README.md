@@ -8,6 +8,10 @@ By default this module displays the departure times of the configured route in t
 
 ![](./doc/screenshot-default.png)
 
+Or, if you wish, you can display all departures from the configured stop:
+
+![](./doc/screenshot-multiple-routes.png)
+
 If you wish, you can hide the complete head:
 
 ![](./doc/screenshot-nohead.png)
@@ -54,6 +58,7 @@ var config = {
         showHead: true, // true | false
         showSymbolInHead: true, // true | false
         showSymbolInStopTime: false, // true | false
+        showRouteNameInStopTime: false, // true | false
         maxNumberOfItems: 3,
         align: 'left', // 'left' | 'right'
         fade: true,
@@ -61,6 +66,7 @@ var config = {
         coloredSymbolInHead: true, // true | false
         coloredTextInHead: true, // true | false
         coloredSymbolInStopTime: true, // true | false
+        coloredRouteNameInStopTime: true, // true | false
         symbolColors: {
           tram: '#ffcf42', // yellow-ish
           bus: '#1a9fed', // blue-ish
@@ -86,6 +92,7 @@ var config = {
 | `showHead`             | *Optional* Determines whether the module should display a custom headline (independently from the standard headline of the module). The route name in the head is based on the data received from the Futár service. <br><br>**Type:** `boolean` <br>**Default value:** `true`
 | `showSymbolInHead`     | *Optional* Determines whether the custom headline should show the icon of the route.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `showSymbolInStopTime` | *Optional* Determines whether every stop time line should show the icon of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
+| `showRouteNameInStopTime` | *Optional* Determines whether every stop time line should show the name of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
 | `maxNumberOfItems`     | *Optional* Determines the limit for the number of displayed departure times. <br><br>**Type:** `number`  <br>**Default value:** `3`
 | `align`                | *Optional* Determines how the text is aligned within the module.<br><br>**Type:** `string`<br>**Possible values**: `left` or `right`<br>**Default value:** `left`
 | `fade`                 | *Optional* Determines whether the future stop times are gradiently faded to black.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
@@ -93,6 +100,7 @@ var config = {
 | `coloredSymbolInHead`     | *Optional* Determines whether the symbol in the head should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `coloredTextInHead`       | *Optional* Determines whether the route name text in the head should be displayed with the color of the route type (e.g. yellow for tram). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `coloredSymbolInStopTime` | *Optional* Determines whether the symbol in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `coloredRouteNameInStopTime` | *Optional* Determines whether the route name in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `symbolColors`            | *Optional* Allows overriding the colors of the route types. Used only if any `colored...` options is set to `true`. <br><br>**Type:** `object`  <br>**Default value:** (see above)
 
 ## How to get the `stopId` and `routeId`

@@ -16,6 +16,14 @@
   margin-right: 10px;
 }
 
+.MMM-Futar .symbol-mini {
+  margin-right: 5px;
+}
+
+.MMM-Futar .route-name {
+  padding-right: 10px;
+}
+
 .MMM-Futar .relative-time {
   text-align: right;
   white-space: nowrap;

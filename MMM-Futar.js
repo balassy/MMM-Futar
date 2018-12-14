@@ -14,10 +14,12 @@ Module.register('MMM-Futar', {
     showHead: true, // true | false
     showSymbolInHead: true, // true | false
     showSymbolInStopTime: false, // true | false
+    showRouteNameInStopTime: false, // true | false
     maxNumberOfItems: 3,
     coloredSymbolInHead: true, // true | false
     coloredTextInHead: true, // true | false
     coloredSymbolInStopTime: true, // true | false
+    coloredRouteNameInStopTime: true, // true | false
     symbolColors: {
       tram: '#ffcf42', // yellow-ish
       bus: '#1a9fed', // blue-ish
@@ -151,6 +153,11 @@ Module.register('MMM-Futar', {
       timeEl.appendChild(symbolEl);
     }
 
+    if (this.config.showRouteNameInStopTime) {
+      const routeNameEl = this._getDomForRouteNameInStopTime(departureTime.routeName, departureTime.routeType);
+      timeEl.appendChild(routeNameEl);
+    }
+
     const relativeTimeEl = document.createElement('td');
     relativeTimeEl.classList = 'relative-time';
     relativeTimeEl.innerHTML = departureTime.relativeTime;
@@ -166,13 +173,25 @@ Module.register('MMM-Futar', {
 
   _getDomForSymbolInStopTime(routeType) {
     const symbolEl = document.createElement('td');
-    symbolEl.classList = this._getCssClassNameForRouteType(routeType);
+    symbolEl.classList = `${this._getCssClassNameForRouteType(routeType)} symbol-mini`;
 
     if (this.config.coloredSymbolInStopTime) {
       symbolEl.style = `color: ${this._getColorForRouteType(routeType)}`;
     }
 
     return symbolEl;
+  },
+
+  _getDomForRouteNameInStopTime(routeName, routeType) {
+    const routeNameEl = document.createElement('td');
+    routeNameEl.innerHTML = routeName;
+    routeNameEl.classList = 'route-name';
+
+    if (this.config.coloredRouteNameInStopTime) {
+      routeNameEl.style = `color: ${this._getColorForRouteType(routeType)}`;
+    }
+
+    return routeNameEl;
   },
 
   _getCssClassNameForRouteType(routeType) {
