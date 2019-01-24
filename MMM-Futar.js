@@ -23,8 +23,8 @@ Module.register('MMM-Futar', {
     symbolColors: {
       tram: '#ffcf42', // yellow-ish
       bus: '#1a9fed', // blue-ish
-      subway: '#8b1e3f', // red-ish
-      trolleybus: '#44001a', // dark red-ish
+      subway: '#b3090c', // red-ish
+      trolleybus: '#931517', // dark red-ish
       rail: '#5cbc82', // green-ish
       ferry: '#1a52ed' // dark-blue-ish
     },
@@ -236,8 +236,20 @@ Module.register('MMM-Futar', {
       case 'BUS':
         classList += 'fa-bus';
         break;
+      case 'FERRY':
+        classList += 'fa-ship';
+        break;
+      case 'RAIL':
+        classList += 'fa-train';
+        break;
+      case 'SUBWAY':
+        classList += 'fa-subway';
+        break;
       case 'TRAM':
         classList += 'fa-train';
+        break;
+      case 'TROLLEYBUS':
+        classList += 'fa-bus-alt';
         break;
       default:
         break;

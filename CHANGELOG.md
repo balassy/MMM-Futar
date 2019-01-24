@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.3.1]
+
+- BUGFIX: The ferry, rail, subway and trolleybus vehicle icons are displayed properly. Subway and trolleybus text colors are slightly adjusted. See [issue #5](https://github.com/balassy/MMM-Futar/issues/5).
+
 ## [1.3.0]
 
 - ADDED: The route name can be displayed in every stop time using the new `showRouteNameInStopTime` configuration switch.
