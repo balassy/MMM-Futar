@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.0]
+
+- ADDED: Too early stop times can be hidden with the new `hideStopTimesInNextMinutes` configuration setting.
+
 ## [1.3.1]
 
 - BUGFIX: The ferry, rail, subway and trolleybus vehicle icons are displayed properly. Subway and trolleybus text colors are slightly adjusted. See [issue #5](https://github.com/balassy/MMM-Futar/issues/5).

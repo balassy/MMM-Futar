@@ -58,6 +58,7 @@ var config = {
         stopId: 'BKK_F02285',
         routeId: 'BKK_1020',
         minutesAfter: 50,
+        hideStopTimesInNextMinutes: 0,
         updateInterval: 60000, // 1 minute in milliseconds
         showHead: true, // true | false
         showSymbolInHead: true, // true | false
@@ -74,8 +75,8 @@ var config = {
         symbolColors: {
           tram: '#ffcf42', // yellow-ish
           bus: '#1a9fed', // blue-ish
-          subway: '#8b1e3f', // red-ish
-          trolleybus: '#44001a', // dark red-ish
+          subway: '#b3090c', // red-ish
+          trolleybus: '#931517', // dark red-ish
           rail: '#5cbc82', // green-ish
           ferry: '#1a52ed' // dark-blue-ish
         },
@@ -98,6 +99,7 @@ var config = {
 | `stopId`               | **REQUIRED** The unique identifier of the stop. See below for more details about how to acquire it.<br><br> **Type:** `string` <br>**Default value:** `(empty)`
 | `routeId`              | *Optional* The unique identifier of the route, which can be used to filter the departure times, if multiple routes share the same stop. <br><br> **Type:** `string` <br>**Default value:** `(empty)`
 | `minutesAfter`         | *Optional* The number of minutes of how far the module should list the departure times in the future. Increase this value to show more departure times, or decrease it to display less, and make the module smaller. <br><br>**Type:** `int` (minutes) <br>**Default value:** `50`
+| `hideStopTimesInNextMinutes` | *Optional* The number of next minutes for which the module should not display departure times. For example if the nearest stop is in a 5-minute walk from your home, you can set this value to `5` to not show departures in the next 5 minutes. <br><br>**Type:** `int` (minutes) <br>**Default value:** `0`
 | `updateInterval`       | *Optional* The frequency of when the module should query the departure times from the Futár service. <br><br>**Type:** `int` (milliseconds) <br>**Default value:** `60000` milliseconds (1 minute)
 | `showHead`             | *Optional* Determines whether the module should display a custom headline (independently from the standard headline of the module). The route name in the head is based on the data received from the Futár service. <br><br>**Type:** `boolean` <br>**Default value:** `true`
 | `showSymbolInHead`     | *Optional* Determines whether the custom headline should show the icon of the route.<br><br>**Type:** `boolean`  <br>**Default value:** `true`

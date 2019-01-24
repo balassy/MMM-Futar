@@ -7,6 +7,7 @@
 Module.register('MMM-Futar', {
   defaults: {
     updateInterval: 60000,
+    hideStopTimesInNextMinutes: 0,
     minutesAfter: 50,
     fade: true,
     fadePoint: 0.25,
@@ -331,7 +332,13 @@ Module.register('MMM-Futar', {
           routeType,
           alertHeader
         };
-        departureTimes.push(departureTime);
+
+        // Filter out stop times that are too early.
+        const now = moment();
+        const relativeTimeInMinutes = (timeInLocalTime - now) / 1000 / 60;
+        if (relativeTimeInMinutes >= this.config.hideStopTimesInNextMinutes) {
+          departureTimes.push(departureTime);
+        }
       }
     }
 
