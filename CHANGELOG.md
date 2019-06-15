@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.1]
+
+This is a maintenance release that updates all third party developer dependencies to the latest version. This change should not affect the functionality of the module.
+
 ## [1.4.0]
 
 - ADDED: Too early stop times can be hidden with the new `hideStopTimesInNextMinutes` configuration setting.
