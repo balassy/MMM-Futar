@@ -42,7 +42,8 @@ Module.register('MMM-Futar', {
   getScripts() {
     return [
       'moment.js',
-      'moment-timezone.js'
+      'moment-timezone.js',
+      this.file('node_modules/fetch-jsonp/build/fetch-jsonp.js')
     ];
   },
 
@@ -280,29 +281,23 @@ Module.register('MMM-Futar', {
   _getData(onCompleteCallback) {
     const self = this;
 
-    const url = `http://futar.bkk.hu/bkk-utvonaltervezo-api/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=${this.config.minutesAfter}`;
+    const url = `https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=${this.config.minutesAfter}`;
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function onReadyStateChange() {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          self._processResponse(this.response);
-          if (onCompleteCallback) {
-            onCompleteCallback();
-          }
-        } else {
-          Log.error(self.name, `MMM-Futar: Failed to load data. XHR status: ${this.status}`);
+    fetchJsonp(url)
+      .then(function(response) {
+        return response.json();
+      }).then(function(responseJson) {
+        self._processResponseJson(responseJson);
+
+        if (onCompleteCallback) {
+          onCompleteCallback();
         }
-      }
-    };
-
-    xhr.send();
+      }).catch(function(ex) {
+        Log.error(self.name, `MMM-Futar: Failed to load data. Error: ${ex}`);
+      })
   },
 
-  _processResponse(responseBody) {
-    const response = JSON.parse(responseBody);
-
+  _processResponseJson(response) {
     const departureTimes = [];
 
     const trips = this._getAllTripsFromResponse(response);

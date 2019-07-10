@@ -164,7 +164,7 @@ This module periodically sends requests from the browser window of the MagicMirr
 
 The API does not require any API key.
 
-You can see an example by visiting this URL: http://futar.bkk.hu/bkk-utvonaltervezo-api/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=BKK_F02285&onlyDepartures=true&minutesBefore=0&minutesAfter=50
+You can see an example by visiting this URL: https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=BKK_F02297&onlyDepartures=true&minutesBefore=0&minutesAfter=40
 
 ## Localization
 

@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.0]
+
+- FIXED: This release uses the changed BKK API base URL through HTTPS and bypasses the CORS restrictions with JSONP. Please run `npm install` after downloading this version.
+
 ## [1.4.1]
 
 This is a maintenance release that updates all third party developer dependencies to the latest version. This change should not affect the functionality of the module.
