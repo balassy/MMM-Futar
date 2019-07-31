@@ -1,4 +1,4 @@
-/* global Module, Log, moment, config */
+/* global Module, Log, moment, config, fetchJsonp */
 
 /* Magic Mirror Module: MMM-Futar (https://github.com/balassy/MMM-Futar)
  * By György Balássy (https://www.linkedin.com/in/balassy)
@@ -284,17 +284,16 @@ Module.register('MMM-Futar', {
     const url = `https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=${this.config.minutesAfter}`;
 
     fetchJsonp(url)
-      .then(function(response) {
-        return response.json();
-      }).then(function(responseJson) {
+      .then(response => response.json())
+      .then((responseJson) => {
         self._processResponseJson(responseJson);
 
         if (onCompleteCallback) {
           onCompleteCallback();
         }
-      }).catch(function(ex) {
+      }).catch((ex) => {
         Log.error(self.name, `MMM-Futar: Failed to load data. Error: ${ex}`);
-      })
+      });
   },
 
   _processResponseJson(response) {
