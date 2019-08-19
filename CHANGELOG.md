@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.5.2]
+
+- FIXED: Language is set explicitly independently from other modules.
+
 ## [1.5.1]
 
 This is a maintenance release that updates all third party developer dependencies to the latest version. This change should not affect the functionality of the module.

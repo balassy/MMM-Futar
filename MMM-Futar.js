@@ -66,6 +66,8 @@ Module.register('MMM-Futar', {
     this.viewModel = null;
     this.hasData = false;
 
+    moment.locale(config.language);
+
     this._getData(() => self.updateDom());
 
     setInterval(() => {
