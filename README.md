@@ -46,13 +46,19 @@ To use this module follow these steps:
 git clone https://github.com/balassy/MMM-Futar.git
 ```
 
-2. Install third-party dependencies:
+2. Step into the newly created folder:
+
+```bash
+cd MMM-Futar
+```
+
+3. Install third-party dependencies:
 
 ```bash
 npm install
 ```
 
-3. Add the following configuration block to the modules array in the `config/config.js` file:
+4. Add the following configuration block to the modules array in the `config/config.js` file:
 
 ```js
 var config = {
