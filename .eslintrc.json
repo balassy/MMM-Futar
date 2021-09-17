@@ -1,5 +1,15 @@
 {
+  "root": true,
+	"env": {
+		"browser": true,
+		"node": true,
+		"es6": true
+	},  
   "extends": "airbnb-base",
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },  
   "rules": {
     "comma-dangle": ["error", "never"],
     "linebreak-style": ["off"],
@@ -7,10 +17,5 @@
     "no-nested-ternary": ["off"],
     "no-plusplus": ["off"],
     "no-underscore-dangle": ["off"]
-  },
-	"env": {
-		"browser": true,
-		"node": true,
-		"es6": true
-	}
+  }
 }

@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.6.0]
 
 - UPDATED: Rebuilt the data fetch mechanism, because the Futar API removed JSONP support. 
+- UPDATED: `grunt` removed and all developer dependencies updated to the latest version.
 
 ## [1.5.2]
 

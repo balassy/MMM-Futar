@@ -433,7 +433,7 @@ Module.register('MMM-Futar', {
       const steps = totalNumberOfRows - startingPoint;
       if (currentRowNumber >= startingPoint) {
         const currentStep = currentRowNumber - startingPoint;
-        opacity = 1 - (1 / steps * currentStep);
+        opacity = 1 - ((1 / steps) * currentStep);
       }
     }
 
