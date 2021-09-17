@@ -1,4 +1,4 @@
-/* global Module, Log, moment, config, fetchJsonp */
+/* global Module, Log, moment, config */
 
 /* Magic Mirror Module: MMM-Futar (https://github.com/balassy/MMM-Futar)
  * By György Balássy (https://www.linkedin.com/in/balassy)
@@ -42,8 +42,7 @@ Module.register('MMM-Futar', {
   getScripts() {
     return [
       'moment.js',
-      'moment-timezone.js',
-      this.file('node_modules/fetch-jsonp/build/fetch-jsonp.js')
+      'moment-timezone.js'
     ];
   },
 
@@ -63,16 +62,12 @@ Module.register('MMM-Futar', {
 
   start() {
     const self = this;
-    this.viewModel = null;
-    this.hasData = false;
+    self.viewModel = null;
+    self.hasData = false;
 
     moment.locale(config.language);
 
-    this._getData(() => self.updateDom());
-
-    setInterval(() => {
-      self._getData(() => self.updateDom());
-    }, this.config.updateInterval);
+    self.sendSocketNotification('MMM-FUTAR.INIT', self.config);
   },
 
   getDom() {
@@ -280,22 +275,14 @@ Module.register('MMM-Futar', {
     return resultColor;
   },
 
-  _getData(onCompleteCallback) {
-    const self = this;
-
-    const url = `https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=${this.config.stopId}&onlyDepartures=true&minutesBefore=0&minutesAfter=${this.config.minutesAfter}`;
-
-    fetchJsonp(url)
-      .then(response => response.json())
-      .then((responseJson) => {
-        self._processResponseJson(responseJson);
-
-        if (onCompleteCallback) {
-          onCompleteCallback();
-        }
-      }).catch((ex) => {
-        Log.error(self.name, `MMM-Futar: Failed to load data. Error: ${ex}`);
-      });
+  socketNotificationReceived(notificationName, payload) {
+    if (notificationName === 'MMM-FUTAR.STARTED') {
+      this.updateDom();
+    } else if (notificationName === 'MMM-FUTAR.VALUE_RECEIVED') {
+      this.hasData = true;
+      this._processResponseJson(payload);
+      this.updateDom();
+    }
   },
 
   _processResponseJson(response) {
@@ -360,15 +347,15 @@ Module.register('MMM-Futar', {
   },
 
   _getAllStopTimesFromResponse(response) {
-    return response.data.entry.stopTimes;
+    return response.entry.stopTimes;
   },
 
   _getAllRoutesFromResponse(response) {
-    return response.data.references.routes;
+    return response.references.routes;
   },
 
   _getAllAlertsFromResponse(response) {
-    return response.data.references.alerts;
+    return response.references.alerts;
   },
 
   _getAlertIdsFromStopTime(stopTime) {
@@ -380,7 +367,7 @@ Module.register('MMM-Futar', {
   },
 
   _getAllTripsFromResponse(response) {
-    return response.data.references.trips;
+    return response.references.trips;
   },
 
   _getTripById(trips, tripId) {
