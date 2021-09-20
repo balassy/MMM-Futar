@@ -67,7 +67,12 @@ Module.register('MMM-Futar', {
 
     moment.locale(config.language);
 
-    self.sendSocketNotification('MMM-FUTAR.INIT', self.config);
+    const payload = {
+      moduleId: self.identifier,
+      config: self.config
+    };
+
+    self.sendSocketNotification('MMM-FUTAR.INIT', payload);
   },
 
   getDom() {
@@ -278,9 +283,9 @@ Module.register('MMM-Futar', {
   socketNotificationReceived(notificationName, payload) {
     if (notificationName === 'MMM-FUTAR.STARTED') {
       this.updateDom();
-    } else if (notificationName === 'MMM-FUTAR.VALUE_RECEIVED') {
+    } else if (notificationName === 'MMM-FUTAR.VALUE_RECEIVED' && payload.moduleId === this.identifier) {
       this.hasData = true;
-      this._processResponseJson(payload);
+      this._processResponseJson(payload.data);
       this.updateDom();
     }
   },
