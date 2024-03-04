@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.1]
+
+This is a maintenance release that updates all third party developer dependencies to the latest version. This change should not affect the functionality of the module.
+
 ## [2.0.0]
 
 - **BREAKING CHANGE**: Introduced the **mandatory `apikey`** configuration parameter. Follow the instructions in `README.md` to obtain it from https://opendata.bkk.hu.
