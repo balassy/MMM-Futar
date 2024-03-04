@@ -106,27 +106,28 @@ var config = {
 
 ## Configuration options
 
-| Option                 | Description
-|------------------------|-----------
-| `stopId`               | **REQUIRED** The unique identifier of the stop. See below for more details about how to acquire it.<br><br> **Type:** `string` <br>**Default value:** `(empty)`
-| `routeId`              | *Optional* The unique identifier of the route, which can be used to filter the departure times, if multiple routes share the same stop. <br><br> **Type:** `string` <br>**Default value:** `(empty)`
-| `minutesAfter`         | *Optional* The number of minutes of how far the module should list the departure times in the future. Increase this value to show more departure times, or decrease it to display less, and make the module smaller. <br><br>**Type:** `int` (minutes) <br>**Default value:** `50`
+| Option                       | Description
+|------------------------------|-----------
+| `apiKey`                     | **REQUIRED** The API key which is obtained from https://opendata.bkk.hu/ <br><br> **Type:** `string` <br>**Default value:** `API_KEY`
+| `stopId`                     | **REQUIRED** The unique identifier of the stop. See below for more details about how to acquire it.<br><br> **Type:** `string` <br>**Default value:** `(empty)`
+| `routeId`                    | *Optional* The unique identifier of the route, which can be used to filter the departure times, if multiple routes share the same stop. <br><br> **Type:** `string` <br>**Default value:** `(empty)`
+| `minutesAfter`               | *Optional* The number of minutes of how far the module should list the departure times in the future. Increase this value to show more departure times, or decrease it to display less, and make the module smaller. <br><br>**Type:** `int` (minutes) <br>**Default value:** `50`
 | `hideStopTimesInNextMinutes` | *Optional* The number of next minutes for which the module should not display departure times. For example if the nearest stop is in a 5-minute walk from your home, you can set this value to `5` to not show departures in the next 5 minutes. <br><br>**Type:** `int` (minutes) <br>**Default value:** `0`
-| `updateInterval`       | *Optional* The frequency of when the module should query the departure times from the Futár service. <br><br>**Type:** `int` (milliseconds) <br>**Default value:** `60000` milliseconds (1 minute)
-| `showHead`             | *Optional* Determines whether the module should display a custom headline (independently from the standard headline of the module). The route name in the head is based on the data received from the Futár service. <br><br>**Type:** `boolean` <br>**Default value:** `true`
-| `showSymbolInHead`     | *Optional* Determines whether the custom headline should show the icon of the route.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
-| `showSymbolInStopTime` | *Optional* Determines whether every stop time line should show the icon of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
-| `showRouteNameInStopTime` | *Optional* Determines whether every stop time line should show the name of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
-| `maxNumberOfItems`     | *Optional* Determines the limit for the number of displayed departure times. <br><br>**Type:** `number`  <br>**Default value:** `3`
-| `align`                | *Optional* Determines how the text is aligned within the module.<br><br>**Type:** `string`<br>**Possible values**: `left` or `right`<br>**Default value:** `left`
-| `fade`                 | *Optional* Determines whether the future stop times are gradiently faded to black.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
-| `fadePoint`            | *Optional* Determines where the fading should be started.<br><br>**Type:** `double`<br>**Possible values:** `0` (top of the list) - `1` (bottom of the list)<br>**Default value:** `0.25`
-| `coloredSymbolInHead`     | *Optional* Determines whether the symbol in the head should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
-| `coloredTextInHead`       | *Optional* Determines whether the route name text in the head should be displayed with the color of the route type (e.g. yellow for tram). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
-| `coloredSymbolInStopTime` | *Optional* Determines whether the symbol in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `updateInterval`             | *Optional* The frequency of when the module should query the departure times from the Futár service. <br><br>**Type:** `int` (milliseconds) <br>**Default value:** `60000` milliseconds (1 minute)
+| `showHead`                   | *Optional* Determines whether the module should display a custom headline (independently from the standard headline of the module). The route name in the head is based on the data received from the Futár service. <br><br>**Type:** `boolean` <br>**Default value:** `true`
+| `showSymbolInHead`           | *Optional* Determines whether the custom headline should show the icon of the route.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `showSymbolInStopTime`       | *Optional* Determines whether every stop time line should show the icon of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
+| `showRouteNameInStopTime`    | *Optional* Determines whether every stop time line should show the name of the route. <br><br>**Type:** `boolean`  <br>**Default value:** `false`
+| `maxNumberOfItems`           | *Optional* Determines the limit for the number of displayed departure times. <br><br>**Type:** `number`  <br>**Default value:** `3`
+| `align`                      | *Optional* Determines how the text is aligned within the module.<br><br>**Type:** `string`<br>**Possible values**: `left` or `right`<br>**Default value:** `left`
+| `fade`                       | *Optional* Determines whether the future stop times are gradiently faded to black.<br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `fadePoint`                  | *Optional* Determines where the fading should be started.<br><br>**Type:** `double`<br>**Possible values:** `0` (top of the list) - `1` (bottom of the list)<br>**Default value:** `0.25`
+| `coloredSymbolInHead`        | *Optional* Determines whether the symbol in the head should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `coloredTextInHead`          | *Optional* Determines whether the route name text in the head should be displayed with the color of the route type (e.g. yellow for tram). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
+| `coloredSymbolInStopTime`    | *Optional* Determines whether the symbol in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
 | `coloredRouteNameInStopTime` | *Optional* Determines whether the route name in every stop time line should be displayed with the color of the route type (e.g. blue for bus). <br><br>**Type:** `boolean`  <br>**Default value:** `true`
-| `symbolColors`            | *Optional* Allows overriding the colors of the route types. Used only if any `colored...` options is set to `true`. <br><br>**Type:** `object`  <br>**Default value:** (see above)
-| `alerts`                  | *Optional* Allows configuring how route alerts are displayed. See the "Alert options" section below for more details. <br><br>**Type:** `object`  <br>**Default value:** (see above)
+| `symbolColors`               | *Optional* Allows overriding the colors of the route types. Used only if any `colored...` options is set to `true`. <br><br>**Type:** `object`  <br>**Default value:** (see above)
+| `alerts`                     | *Optional* Allows configuring how route alerts are displayed. See the "Alert options" section below for more details. <br><br>**Type:** `object`  <br>**Default value:** (see above)
 
 ### Alert options
 
@@ -140,13 +141,22 @@ The following properties are available for the `alerts` object of the configurat
 | `language`             | *Optional* Determines the language of the alert messages.<br><br>**Type:** `string`  <br>**Possible values:** `'en'` or `'hu'` (only these two are supported by the Futár service)<br> **Default value:** the language of the mirror (set in the `language` property in `config.js`)
 
 
-## How to get the `stopId` and `routeId`
+## How it works
+
+This module periodically sends requests from the browser window of the MagicMirror Electron application to the [BKK Futár Webservice](https://futar.bkk.hu/). Although the service is free and public, its API is not publicly documented, so the module was created by understanding the current communication.
+
+The API require a free API key which you can register here: https://opendata.bkk.hu/
+
+You can see an example by visiting this URL (enter your API key in the URL): https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=BKK_F02297&onlyDepartures=true&minutesBefore=0&minutesAfter=40&key=yourApiKey
+
+
+## How to obtain the `stopId` and `routeId`
 
 To get the stop and route identifiers required by this module, follow these steps:
 
 ### `stopId`
 
-1. Launch Google Chrome and navigate to https://futar.bkk.hu.
+1. Navigate to https://futar.bkk.hu.
 
 2. Zoom until your favorite stop is shown on the map.
 
@@ -158,7 +168,7 @@ To get the stop and route identifiers required by this module, follow these step
 
 ### `routeId`
 
-1. Launch Google Chrome and navigate to https://futar.bkk.hu.
+1. Navigate to https://futar.bkk.hu.
 
 2. Zoom until your favorite stop is shown on the map.
 
@@ -169,14 +179,6 @@ To get the stop and route identifiers required by this module, follow these step
 6. Hover your mouse over your stop.
 
 7. Right click, copy the link address and it should reveal the `stopId` and the `routeId` as well.
-
-## How it works
-
-This module periodically sends requests from the browser window of the MagicMirror Electron application to the [BKK Futár Webservice](https://futar.bkk.hu/). Although the service is free and public, its API is not publicly documented, so the module was created by understanding the current communication.
-
-The API does not require any API key.
-
-You can see an example by visiting this URL: https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=BKK_F02297&onlyDepartures=true&minutesBefore=0&minutesAfter=40
 
 ## Localization
 

@@ -6,6 +6,7 @@
 
 Module.register('MMM-Futar', {
   defaults: {
+    apiKey: 'API_KEY',
     updateInterval: 60000,
     hideStopTimesInNextMinutes: 0,
     minutesAfter: 50,
