@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "npm run jsonlint & npm run eslint & npm run markdownlint & npm run stylelint",
     "eslint": "eslint *.js",
-    "jsonlint": "jsonlint --quiet --comments .",
+    "jsonlint": "jsonlint --quiet --comments **/*.json !**/node_modules",
     "markdownlint": "markdownlint *.md",
     "stylelint": "stylelint *.css"
   },

@@ -1,3 +1,5 @@
+/* The naming convention is to include the name of the module. */ 
+/* stylelint-disable selector-class-pattern */
 .MMM-Futar table {
   width: auto !important;
 }
@@ -42,3 +44,4 @@
   padding-left: 10px;
   white-space: nowrap;
 }
+/* stylelint-enable selector-class-pattern */
