@@ -40,7 +40,7 @@ module.exports = NodeHelper.create({
       if (!error && response.statusCode === 200) {
         self._processResponse(moduleId, body);
       } else {
-        console.error(`MMM-Futar Node helper: Failed to load data in the background. Error: ${error}. Response: ${response}`); // eslint-disable-line no-console
+        console.error(`MMM-Futar Node helper: Failed to load data in the background. Error: ${error}. Status code: ${response.statusCode}. Body: ${body}`); // eslint-disable-line no-console
       }
     });
   },
