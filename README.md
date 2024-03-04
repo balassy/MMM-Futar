@@ -67,6 +67,7 @@ var config = {
       module: 'MMM-Futar',
       position: 'top_left',
       config: {
+        apiKey: 'YOUR_API_KEY',
         stopId: 'BKK_F02285',
         routeId: 'BKK_1020',
         minutesAfter: 50,
@@ -108,7 +109,7 @@ var config = {
 
 | Option                       | Description
 |------------------------------|-----------
-| `apiKey`                     | **REQUIRED** The API key which is obtained from https://opendata.bkk.hu/ <br><br> **Type:** `string` <br>**Default value:** `API_KEY`
+| `apiKey`                     | **REQUIRED** The API key which must be obtained from https://opendata.bkk.hu/ <br><br> **Type:** `string` <br>**Default value:** `API_KEY`
 | `stopId`                     | **REQUIRED** The unique identifier of the stop. See below for more details about how to acquire it.<br><br> **Type:** `string` <br>**Default value:** `(empty)`
 | `routeId`                    | *Optional* The unique identifier of the route, which can be used to filter the departure times, if multiple routes share the same stop. <br><br> **Type:** `string` <br>**Default value:** `(empty)`
 | `minutesAfter`               | *Optional* The number of minutes of how far the module should list the departure times in the future. Increase this value to show more departure times, or decrease it to display less, and make the module smaller. <br><br>**Type:** `int` (minutes) <br>**Default value:** `50`
@@ -140,7 +141,6 @@ The following properties are available for the `alerts` object of the configurat
 | `color`                | *Optional* Determines the color of the alert messages.<br><br>**Type:** `string`  <br>**Possible values:** `'auto'` to use the text color of the mirror or any valid CSS color <br>**Default value:** `#ffcf42` (yellow)
 | `language`             | *Optional* Determines the language of the alert messages.<br><br>**Type:** `string`  <br>**Possible values:** `'en'` or `'hu'` (only these two are supported by the Futár service)<br> **Default value:** the language of the mirror (set in the `language` property in `config.js`)
 
-
 ## How it works
 
 This module periodically sends requests from the browser window of the MagicMirror Electron application to the [BKK Futár Webservice](https://futar.bkk.hu/). Although the service is free and public, its API is not publicly documented, so the module was created by understanding the current communication.
@@ -148,7 +148,6 @@ This module periodically sends requests from the browser window of the MagicMirr
 The API require a free API key which you can register here: https://opendata.bkk.hu/
 
 You can see an example by visiting this URL (enter your API key in the URL): https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=BKK_F02297&onlyDepartures=true&minutesBefore=0&minutesAfter=40&key=yourApiKey
-
 
 ## How to obtain the `stopId` and `routeId`
 
