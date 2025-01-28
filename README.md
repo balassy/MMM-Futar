@@ -105,6 +105,14 @@ var config = {
 }
 ```
 
+5. If you receive `Cannot find module 'request'` error after starting MagicMirror install this package manually:
+
+```bash
+npm install request
+```
+
+This is required because newer versions of MagicMirror do not include this module that MMM-Futar depends on out of the box.
+
 ## Configuration options
 
 | Option                       | Description
