@@ -301,6 +301,11 @@ Module.register('MMM-Futar', {
     const stopTimes = this._getAllStopTimesFromResponse(response);
     for (let i = 0; i < stopTimes.length; i++) {
       const stopTime = stopTimes[i];
+
+      if (this.config.stopId && stopTime.stopId !== this.config.stopId) {
+        continue;
+      }
+      
       const tripId = this._getTripIdFromStopTime(stopTime);
       const trip = this._getTripById(trips, tripId);
       const routeId = this._getRouteIdFromTrip(trip);
