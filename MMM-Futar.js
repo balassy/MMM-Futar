@@ -179,7 +179,7 @@ Module.register('MMM-Futar', {
     absoluteTimeEl.innerHTML = ` (${departureTime.absoluteTime})`;
     timeEl.appendChild(absoluteTimeEl);
 
-    if (this.config.alerts.showHeaderInStopTime && departureTime.alertHeader) {
+    if (departureTime.alertHeader && (this.config.alerts.showHeaderInStopTime || this.config.alerts.showSymbolInStopTime)) {
       const alertEl = this._getDomForAlertHeaderInStopTime(departureTime.alertHeader);
       timeEl.appendChild(alertEl);
     }
@@ -222,10 +222,12 @@ Module.register('MMM-Futar', {
       alertEl.appendChild(alertSymbolEl);
     }
 
-    const alertTextEl = document.createElement('span');
-    alertTextEl.classList = 'alert-header';
-    alertTextEl.innerHTML = alertHeader;
-    alertEl.appendChild(alertTextEl);
+    if (this.config.alerts.showHeaderInStopTime) {
+      const alertTextEl = document.createElement('span');
+      alertTextEl.classList = 'alert-header';
+      alertTextEl.innerHTML = alertHeader;
+      alertEl.appendChild(alertTextEl);
+    }
 
     return alertEl;
   },
