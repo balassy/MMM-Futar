@@ -306,8 +306,9 @@ Module.register('MMM-Futar', {
 
       // Filter stop times that do not belong to the configured stop ID.
       // This is required because the API sometimes incorrectly returns stop times for multiple stops.
+      // Also, the API not always returns the stopId in the response.
       // See: https://github.com/balassy/MMM-Futar/pull/36 and https://github.com/balassy/MMM-Futar/issues/7
-      if (this.config.stopId && stopTime.stopId !== this.config.stopId) {
+      if (this.config.stopId && stopTime.stopId && stopTime.stopId !== this.config.stopId) {
         continue; // eslint-disable-line no-continue
       }
 

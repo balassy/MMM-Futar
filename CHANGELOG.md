@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.4]
+
+- FIXED: The fix introduced in version 2.0.2 (commit cbe5e91) broke the module in cases when the API response does not contain `stopId` at all. For example: https://futar.bkk.hu/api/query/v1/ws/otp/api/where/arrivals-and-departures-for-stop.json?stopId=BKK_056216&routeId=BKK_5400&onlyDepartures=true&minutesBefore=0&minutesAfter=40&key=APIKEY
+
 ## [2.0.3]
 
 - FIXED: the `showSymbolInStopTime` and `showHeaderInStopTime` options of the `alerts` configuration work independently from each other. Thanks [borzaka](https://github.com/borzaka) for submitting the fix for this issue.
