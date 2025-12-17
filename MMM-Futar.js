@@ -308,9 +308,9 @@ Module.register('MMM-Futar', {
       // This is required because the API sometimes incorrectly returns stop times for multiple stops.
       // See: https://github.com/balassy/MMM-Futar/pull/36 and https://github.com/balassy/MMM-Futar/issues/7
       if (this.config.stopId && stopTime.stopId !== this.config.stopId) {
-        continue;
+        continue; // eslint-disable-line no-continue
       }
-      
+
       const tripId = this._getTripIdFromStopTime(stopTime);
       const trip = this._getTripById(trips, tripId);
       const routeId = this._getRouteIdFromTrip(trip);
