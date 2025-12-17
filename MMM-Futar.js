@@ -301,6 +301,14 @@ Module.register('MMM-Futar', {
     const stopTimes = this._getAllStopTimesFromResponse(response);
     for (let i = 0; i < stopTimes.length; i++) {
       const stopTime = stopTimes[i];
+
+      // Filter stop times that do not belong to the configured stop ID.
+      // This is required because the API sometimes incorrectly returns stop times for multiple stops.
+      // See: https://github.com/balassy/MMM-Futar/pull/36 and https://github.com/balassy/MMM-Futar/issues/7
+      if (this.config.stopId && stopTime.stopId !== this.config.stopId) {
+        continue;
+      }
+      
       const tripId = this._getTripIdFromStopTime(stopTime);
       const trip = this._getTripById(trips, tripId);
       const routeId = this._getRouteIdFromTrip(trip);
