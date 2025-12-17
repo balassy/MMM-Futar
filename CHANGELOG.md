@@ -3,6 +3,10 @@
 All notable changes to this project is documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.2]
+
+- FIXED: Incorrect stop times displayed (added stopId validation to fix API inconsistencies), see [issue #7](https://github.com/balassy/MMM-Futar/issues/7) and [PR #36](https://github.com/balassy/MMM-Futar/pull/36). Thanks [borzaka](https://github.com/borzaka) for submitting the fix for this issue.
+
 ## [2.0.1]
 
 This is a maintenance release that updates all third party developer dependencies to the latest version. This change should not affect the functionality of the module.
